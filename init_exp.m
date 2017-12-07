@@ -20,3 +20,6 @@ for scellID=randperm(scellLength)
 end
 
 s_i=ceil(rand(1)*length(scellThisRound)); % pick an index for scell in this round 's_i'
+
+% l for log
+l = struct('ConditionNum',{},'Brightness',{},'LetterHeight',{},'Resolution',{});

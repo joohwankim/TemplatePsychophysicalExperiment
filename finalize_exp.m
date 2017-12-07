@@ -16,6 +16,17 @@ for ii=1:length(scellCompleted)
         end
     end
 end
-datafilename=['datafiles/' subject_initials '_' num2str(system.frameRate) 'hz_' datestr(clock,30) '.mat'];
+uniqueStr = datestr(clock,30);
+datafilename=['datafiles/' subject_initials '_' uniqueStr '.mat'];
 
 save(datafilename,'scell','param','scellCompleted','scellThisRound','scellNextRound');
+csvtextstr = ['ConditionNum,Brightness,LetterHeight,Resolution,\n'];
+for ll = l
+    csvtextstr = [csvtextstr ...
+        num2str(ll.ConditionNum) ',' ...
+        num2str(ll.Brightness) ',' ...
+        num2str(ll.LetterHeight) ',' ...
+        num2str(ll.Resolution) ',\n' ...
+        ];
+end
+csvwrite(['datafiles/' subject_initials '_' uniqueStr '_log.csv'],csvtextstr);

@@ -2,73 +2,29 @@ if isempty(get(scellThisRound{s_i},'MCS')) % staircasing
     reversalsBeforeResponse=get(scellThisRound{s_i},'currentReversals'); % remember # reversals
 end
 
-while(1)
-    Screen('SelectStereoDrawBuffer',wid,0);
-    Screen('FillRect',wid,bgColor);
-    maskingIndex=randi(masking.numTex);
-    Screen('DrawTexture',wid,maskingTx{maskingIndex});
-    [srcFactorOld destFactorOld]=Screen('BlendFunction', wid, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    Screen('DrawLines',wid,[wrect(3)/2 wrect(3)/2 wrect(3)/2-param.fixationCross.size/2 wrect(3)/2+param.fixationCross.size/2;...
-        wrect(4)/2-param.fixationCross.size/2 wrect(4)/2+param.fixationCross.size/2 wrect(4)/2 wrect(4)/2],param.fixationCross.lineWidth,...
-        stimColor,[],1); % fixation cross
-    Screen('BlendFunction', wid, srcFactorOld, destFactorOld);
-    Screen('SelectStereoDrawBuffer',wid,1);
-    Screen('FillRect',wid,bgColor);
-    Screen('DrawTexture',wid,maskingTx{maskingIndex});
-    [srcFactorOld destFactorOld]=Screen('BlendFunction', wid, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    Screen('DrawLines',wid,[wrect(3)/2 wrect(3)/2 wrect(3)/2-param.fixationCross.size/2 wrect(3)/2+param.fixationCross.size/2;...
-        wrect(4)/2-param.fixationCross.size/2 wrect(4)/2+param.fixationCross.size/2 wrect(4)/2 wrect(4)/2],param.fixationCross.lineWidth,...
-        stimColor,[],1); % fixation cross
-    Screen('BlendFunction', wid, srcFactorOld, destFactorOld);
-    Screen('Flip',wid);
+Screen('FillRect',wid,bgColor);
+Screen('Flip',wid);
 
-    [a b c d]=KbCheck(-1);
-    if a==1
-        iKeyIndex=find(c);
-        strInputName=KbName(iKeyIndex(1));
+[a b c]=KbStrokeWait;
+strInputName=KbName(b);
 
-        if strcmp(strInputName,'UpArrow') || strcmp(strInputName,'up')...
-                || strcmp(strInputName,'4') || strcmp(strInputName,'1!')
-            if param.stim.type==1 % larger disparity means behind
-                if whichSideRef==1
-                    scellThisRound{s_i}=processResponse(scellThisRound{s_i},1);
-                elseif whichSideRef==2
-                    scellThisRound{s_i}=processResponse(scellThisRound{s_i},2);
-                end
-            elseif param.stim.type==2 % larger disparity means closer
-                if whichSideRef==1
-                    scellThisRound{s_i}=processResponse(scellThisRound{s_i},2);
-                elseif whichSideRef==2
-                    scellThisRound{s_i}=processResponse(scellThisRound{s_i},1);
-                end
-            end
-            presentAgain=0;
-            break;
-        elseif strcmp(strInputName,'DownArrow') || strcmp(strInputName,'down')...
-                || strcmp(strInputName,'1') || strcmp(strInputName,'2@')
-            if param.stim.type==1
-                if whichSideRef==1
-                    scellThisRound{s_i}=processResponse(scellThisRound{s_i},2);
-                elseif whichSideRef==2
-                    scellThisRound{s_i}=processResponse(scellThisRound{s_i},1);
-                end
-            elseif param.stim.type==2
-                if whichSideRef==1
-                    scellThisRound{s_i}=processResponse(scellThisRound{s_i},1);
-                elseif whichSideRef==2
-                    scellThisRound{s_i}=processResponse(scellThisRound{s_i},2);
-                end
-            end
-            presentAgain=0;
-            break;
-        elseif strcmp(strInputName,'space')
-            presentAgain=1;
-            break;
-        elseif strcmp(strInputName,'ESCAPE')||strcmp(strInputName,'esc')
-            stop_flag=1;
-            break;
-        end
+if strcmp(strInputName,'space')
+    presentAgain=1;
+elseif strcmp(strInputName,'ESCAPE')||strcmp(strInputName,'esc')
+    stop_flag=1;
+elseif strcmp(strInputName,'UpArrow') || strcmp(strInputName,'DownArrow')
+    % correct answer
+    if (strcmp(strInputName,'UpArrow') && (whichSideRef == 1)) || (strcmp(strInputName,'DownArrow') && (whichSideRef == 2))
+        scellThisRound{s_i}=processResponse(scellThisRound{s_i},2);
+    % incorrect answer
+    elseif (strcmp(strInputName,'DownArrow') && (whichSideRef == 1)) || (strcmp(strInputName,'UpArrow') && (whichSideRef == 2))
+        scellThisRound{s_i}=processResponse(scellThisRound{s_i},1);
     end
+    presentAgain=0;
+    l(end+1).ConditionNum = conditionNum;
+    l(end+1).Brightness = bgColor;
+    l(end+1).LetterHeight = letterHeight;
+    l(end+1).Resolution = 1 / (simulatedPixelSize / 240);
 end
 
 if presentAgain==0
