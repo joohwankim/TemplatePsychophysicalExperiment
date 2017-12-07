@@ -3,7 +3,6 @@ s=PTBStaircase;
 
 % system parameters
 system.pixelVisualAngle=1/4; % minarc
-param.frameRate=system.frameRate;
 param.pixelVisualAngle=system.pixelVisualAngle;
 
 % experimental parameters
