@@ -8,7 +8,7 @@ priors.m_or_a='None';
 priors.w_or_b='None';
 priors.lambda='Uniform(0,.1)'; % lapse rate
 priors.gamma='Uniform(0,.1)'; % guessing rate
-nafc=1;
+nafc=2;
 thresholdCut=0.5; % 75%
 
 [filenames, pathname]=uigetfile('*.mat', 'Select all the experimental output files' ,'MultiSelect', 'on');
@@ -20,7 +20,7 @@ else
 end
 
 for index=1:number_of_files
-    clear scell;
+    clear l;
     if strcmp(whatisthis.class, 'cell')
         load([pathname filenames{index}]);
         subjectInitials=filenames{index}(1:3);
@@ -29,24 +29,26 @@ for index=1:number_of_files
         subjectInitials=filenames(1:3);
     end
     
-    if ~exist('compiled','var')
-        compiled=[];
+    if ~exist('data','var')
+        data=[];
     end
     
-    for si1=1:size(scell,1)
-        for si2=1:size(scell,2)
-            for si3=1:size(scell,3)
-                compiled{si1,si2,si3}.crosstalk=get(scell{si1,si2,si3},'crosstalk');
-                compiled{si1,si2,si3}.disparity=get(scell{si1,si2,si3},'disparity');
-                compiled{si1,si2,si3}.stimColor=get(scell{si1,si2,si3},'stimColor');
-                compiled{si1,si2,si3}.values=get(scell{si1,si2,si3},'values');
-                compiled{si1,si2,si3}.responses=get(scell{si1,si2,si3},'responses');
-            end
-        end
-    end
+    data = [data l];
 end
 %% data collection & sorting completed.
 % start the analysis
+
+a = []; % a for 'analyzed'
+for si1 = 1:size(param.stim.brightness)
+    for si2 = 1:size(param.stim.letterHeight)
+        brightness = param.stim.brightness(si1);
+        letterHeight = param.stim.letterHeight(si1);
+        tIndex = ([data.brightness] == brightness) .* ([data.letterHeight] == letterHeight);
+        tValues = data(tIndex).Resolution;
+        tResponses = data(tIndex).Response;
+        a(si1,si2) = struct('B',{},'diag',{},'threshold',{},'CI',{});
+    end
+end
 
 for si1=1:size(scell,1)
     for si2=1:size(scell,2)

@@ -16,12 +16,20 @@ elseif strcmp(strInputName,'UpArrow') || strcmp(strInputName,'DownArrow')
     % correct answer
     if (strcmp(strInputName,'UpArrow') && (whichSideRef == 1)) || (strcmp(strInputName,'DownArrow') && (whichSideRef == 2))
         scellThisRound{s_i}=processResponse(scellThisRound{s_i},2);
+        response = 1; % correct
     % incorrect answer
     elseif (strcmp(strInputName,'DownArrow') && (whichSideRef == 1)) || (strcmp(strInputName,'UpArrow') && (whichSideRef == 2))
         scellThisRound{s_i}=processResponse(scellThisRound{s_i},1);
+        response = 0; % incorrect
     end
     presentAgain=0;
-    l(end+1) = struct('ConditionNum',conditionNum,'Brightness',bgColor,'LetterHeight',letterHeight,'Resolution',1/(simulatedPixelSize/240));
+    l(end+1) = struct( ...
+        'ConditionNum',conditionNum, ...
+        'Brightness',bgColor, ...
+        'LetterHeight',letterHeight, ...
+        'Resolution',1/(simulatedPixelSize/240), ...
+        'Response',response ...
+        );
 end
 
 if presentAgain==0
