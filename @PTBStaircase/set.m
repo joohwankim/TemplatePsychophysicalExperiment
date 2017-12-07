@@ -10,10 +10,6 @@ while length(property_argin) >= 2,
             a.initialValue = val;
         case 'condition_num'
             a.condition_num = val;
-		case 'captureRate_num'
-			a.captureRate_num = val;
-		case 'letterSize'
-			a.letterSize = val;
         case 'stepSize';
             a.stepSize = val;
         case 'tGuessSd'
@@ -48,36 +44,10 @@ while length(property_argin) >= 2,
             a.numDown = val; 
         case 'initialValue_random_range'
             a.initialValue_random_range =val;
-        case 'stim_order'
-            a.stim_order=val;
-		case 'presentation'
-			a.presentation=val;
-		case 'flash'
-			a.flash=val;
-		case 'dutyCycle'
-			a.dutyCycle=val;
-		case 'protocol'
-			a.protocol=val;
-		case 'eyeMovement'
-			a.eyeMovement=val;
-		case 'contrast'
-			a.contrast=val;
-		case 'refreshRate'
-			a.refreshRate=val;
-		case 'resolution'
-			a.resolution=val;
-		case 'viewingDistance'
-			a.viewingDistance=val;
-		case 'framesPerCapture'
-			a.framesPerCapture=val;
 		case 'initialized'
 			a.initialized=val;
         case 'straightrun'
             a.straightrun=val;
-        case 'monocular'
-            a.monocular=val;    
-        case 'training'
-            a.training=val;        
         case 'MCS'
             a.MCS=val;    
         case 'MCS_num_stimuli'
@@ -90,30 +60,6 @@ while length(property_argin) >= 2,
             a.MCS_max_responses=val;
         case 'subtype'
             a.subtype=val;
-        case 'rotationSpeed'
-            a.rotationSpeed=val;
-        case 'color'
-            a.color=val;
-        case 'greenRatio'
-            a.greenRatio=val;
-        case 'rgbValues'
-            a.rgbValues=val;
-        case 'blurWidth'
-            a.blurWidth=val;
-        case 'barSpeed'
-            a.barSpeed=val;
-        case 'barWidth'
-            a.barWidth=val;
-        case 'captureSequence'
-            a.captureSequence=val;
-        case 'disparity'
-            a.disparity=val;
-        case 'crosstalk'
-            a.crosstalk=val;
-        case 'stimColor'
-            a.stimColor=val;
-        case 'bgColor'
-            a.bgColor=val;
         otherwise
         if ischar(prop),
             error(['Property ' prop ' does not exist in this class!'])

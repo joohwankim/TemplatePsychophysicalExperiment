@@ -21,10 +21,7 @@ elseif strcmp(strInputName,'UpArrow') || strcmp(strInputName,'DownArrow')
         scellThisRound{s_i}=processResponse(scellThisRound{s_i},1);
     end
     presentAgain=0;
-    l(end+1).ConditionNum = conditionNum;
-    l(end+1).Brightness = bgColor;
-    l(end+1).LetterHeight = letterHeight;
-    l(end+1).Resolution = 1 / (simulatedPixelSize / 240);
+    l(end+1) = struct('ConditionNum',conditionNum,'Brightness',bgColor,'LetterHeight',letterHeight,'Resolution',1/(simulatedPixelSize/240));
 end
 
 if presentAgain==0

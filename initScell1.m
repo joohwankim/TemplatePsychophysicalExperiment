@@ -2,8 +2,7 @@
 s=PTBStaircase;
 
 % system parameters
-system.pixelVisualAngle=1; % minarc, assuming 3H viewing
-system.frameRate=120; % 60 frames/s
+system.pixelVisualAngle=1/4; % minarc
 param.frameRate=system.frameRate;
 param.pixelVisualAngle=system.pixelVisualAngle;
 
@@ -12,7 +11,8 @@ param.stim.brightness=[25 80 250];
 param.stim.letterHeight=[37 74]; % letter height in pixel (37 is the size of interest)
 param.stim.simulatedPixelSize = [1 2 3 4 5 6 7 8 10 12 16]; % simulated pixel size in pixel (2 means 2 x 2 pixel block is treated as one pixel)
 param.stim.stimColor=[255 255 255];
-param.stim.duration=1; % in sec
+param.stim.duration=2; % in sec
+param.stim.positionOffset = 200;
 % staircase setting
 param.scell.initialValueRandomRange=15; % in gray level
 param.scell.initialValue=5;
@@ -41,11 +41,11 @@ scellTemplate = set(s,...
 conditions = struct();
 conditionIndex = 0;
 for brightness_i=1:length(param.stim.brightness)
-    for letterCase_i = 1:length(param.stim.letterCase)
+    for letterHeight_i = 1:length(param.stim.letterHeight)
         conditionIndex = conditionIndex + 1;
         conditions(conditionIndex).brightness = param.stim.brightness(brightness_i);
-        conditions(conditionIndex).letterCase = param.stim.letterCase{letterCase_i};
-        scell{brightness_i,letterCase_i}=set(scellTemplate,'condition_num',conditionIndex);
-        scell{brightness_i,letterCase_i}=initializeStaircase(scell{brightness_i,letterCase_i});
+        conditions(conditionIndex).letterHeight = param.stim.letterHeight(letterHeight_i);
+        scell{brightness_i,letterHeight_i}=set(scellTemplate,'condition_num',conditionIndex);
+        scell{brightness_i,letterHeight_i}=initializeStaircase(scell{brightness_i,letterHeight_i});
     end
 end

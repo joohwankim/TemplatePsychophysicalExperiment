@@ -1,5 +1,11 @@
 %INIT_EXP Summary of this function goes here
 
+% tempstr
+subjectInitials = input('Enter subjects initials: ','s');
+if isempty(subjectInitials)
+    subjectInitials = 'test';
+end
+
 stop_flag=0; % set this to 1 whenever experiment should stop
 scellInitiationCommand=['initScell' num2str(1)];
 eval(scellInitiationCommand); % perform routine 'initScell#(subtype)'

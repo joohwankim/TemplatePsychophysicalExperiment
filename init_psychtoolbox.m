@@ -3,17 +3,6 @@
 % present the stimulus again?
 presentAgain=0;
 KbName('UnifyKeyNames');
-% tempstr
-disp('hit enter when done');
-while(1)
-    [a b c]=KbStrokeWait(-1);
-    strInputName=KbName(b);
-
-    switch strInputName
-        case {'RETURN','return','Return','enter'}
-            break;
-    end
-end
 
 screenNumber=0;
 AssertOpenGL;
@@ -41,15 +30,12 @@ Screen('Preference', 'DefaultTextYPositionIsBaseline', 1);
 %     tx_l(end+1) = Screen('MakeTexture',wid,letterImg);
 % end
 manyLetterImg = imread('lettertextures/manyletters.png');
-refImg = imresize(manyLetterImg,[200 800]);
 % tx_many =Screen('MakeTexture',wid,manyLetterImg); % rescaling it to 200 x 800 makes letters 37 pixels high, which is 8.07pt at 750mm viewing distance
 
 % beginning of the experiment
 Screen('FillRect',wid,[0 0 0]);
+
 [srcFactorOld destFactorOld]=Screen('BlendFunction', wid, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-Screen('DrawLines',wid,[wrect(3)/2 wrect(3)/2 wrect(3)/2-param.fixationCross.size/2 wrect(3)/2+param.fixationCross.size/2;...
-    wrect(4)/2-param.fixationCross.size/2 wrect(4)/2+param.fixationCross.size/2 wrect(4)/2 wrect(4)/2],param.fixationCross.lineWidth,...
-    [255 255 255],[],1); % fixation cross
 Screen('BlendFunction', wid, srcFactorOld, destFactorOld);
 dispStr='hit any key to begin!';
 Screen('DrawText',wid,dispStr,100,wrect(4)/4,WhiteIndex(scrnNum));
